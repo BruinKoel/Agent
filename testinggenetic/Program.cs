@@ -6,14 +6,14 @@ Console.WriteLine("Hello, World!");
 
 
 
-//x and y trainingset , 100 bits re[resnted by boudbles
+//x and y trainingset , 100 bits represnted by doudbles
 var (x, y) = (new double[100][], new double[100][]);
 Random random = new Random();
 List<SimpleNode> nodes = new List<SimpleNode>();
-
-for (int i = 0; i < 50; i++)
+// we train 50 nodes in parallel
+for (int i = 0; i < 20; i++)
 {
-    nodes.Add(new Agent.models.Nodes.SimpleNode(2, new int[] { 2,2,2, 1 }));
+    nodes.Add(new Agent.models.Nodes.SimpleNode(2, new int[] { 5,3, 1 }));
 
 }
 
@@ -38,14 +38,14 @@ while (temp.LastCost > 0.0000001 && costs.Count < 20000)
 {
     costs.Add(temp.LastCost.ToString());
 
-
+    // multiThreading B
     Parallel.ForEach<SimpleNode>(nodes, p => p.CalculateCost(x, y));
     nodes = nodes.OrderBy(x => x.LastCost).ToList();
     temp = nodes.FirstOrDefault();
     int half = (int)Math.Round((double)nodes.Count / 2f);
 
-    double odds = 1 / temp.LastCost;
-    double factor = odds* odds;
+    double odds =  temp.LastCost + 0.7;
+    double factor = odds / temp.LastCost;
 
     for (int i = half; i < nodes.Count; i++)
     {
