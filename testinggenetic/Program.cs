@@ -10,7 +10,7 @@ Console.WriteLine("Hello, World!");
 var (x, y) = (new double[100][], new double[100][]);
 Random random = new Random();
 List<SimpleNode> nodes = new List<SimpleNode>();
-// we train 50 nodes in parallel
+// we train 20 nodes in parallel
 for (int i = 0; i < 20; i++)
 {
     nodes.Add(new Agent.models.Nodes.SimpleNode(2, new int[] { 5,3, 1 }));
