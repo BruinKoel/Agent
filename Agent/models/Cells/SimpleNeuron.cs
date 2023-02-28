@@ -16,7 +16,17 @@ namespace Agent.models.Cells
 
         public SimpleNeuron DeepCopy()
         {
-            return JsonConvert.DeserializeObject<SimpleNeuron>(JsonConvert.SerializeObject(this));
+            var temp = new SimpleNeuron()
+            {
+                weights = new double[weights.Length],
+                bias= bias,
+            };
+            weights.CopyTo(temp.weights, 0);
+
+            return temp;
+        }
+        public SimpleNeuron()
+        {
         }
 
         public SimpleNeuron(int inputSize)
@@ -34,7 +44,7 @@ namespace Agent.models.Cells
         public static double Sigmoid(double x)
         {
             
-            return (double)(1 / (1 + Math.Exp(-x)));
+            return (double)Math.Tanh(x);
         }
     }
 }

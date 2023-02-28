@@ -50,7 +50,7 @@ namespace Agent.models.Nodes
                     layers.Add(new SimpleLayer(layerSizes[i - 1], layerSizes[i]));
                 }
             }
-            LastCost = 1f;
+            LastCost = double.MaxValue;
         }
 
         public double[] Compute(double[] inputs)
@@ -65,11 +65,9 @@ namespace Agent.models.Nodes
 
         public void UpdateWeights(double factor, double odds)
         {
-
-            for (int i = 0; i < layers.Count; i++)
+           foreach(var layer in layers)
             {
-                layers[i].UpdateWeights(factor, odds);
-
+                layer.UpdateWeights(factor, odds);
             }
         }
         public void CalculateCost(double[][] input, double[][] desiredOutput)

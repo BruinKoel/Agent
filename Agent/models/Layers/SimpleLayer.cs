@@ -1,6 +1,4 @@
 ﻿using Agent.models.Cells;
-using System.Runtime.CompilerServices;
-using Newtonsoft.Json;
 
 namespace Agent.models.Layers
 {
@@ -13,7 +11,7 @@ namespace Agent.models.Layers
         public SimpleLayer DeepCopy()
         {
             //return JsonConvert.DeserializeObject<SimpleLayer>(JsonConvert.SerializeObject(this));
-            
+
             var temp = new SimpleNeuron[neurons.Length];
             for (int i = 0; i < neurons.Length; i++)
             {
@@ -27,7 +25,7 @@ namespace Agent.models.Layers
 
         public SimpleLayer()
         {
-            random= new Random();
+            random = new Random();
         }
 
         public SimpleLayer(int inputSize, int outputSize)
@@ -41,17 +39,19 @@ namespace Agent.models.Layers
         }
         public void UpdateWeights(double factor, double odds)
         {
-
-            for (int i = 0; i < neurons.Length; i++)
+            int count = (int)(random.NextDouble()*odds*(double)neurons.Length);
+            for(int i = 0; i < count; i++)
             {
-                for (int z = 0; z < neurons[i].weights.Length; z++)
+                var index = random.Next(0, neurons.Length);
+                var change = (double)((random.NextDouble() - 0.5d) * factor);
+                neurons[index].bias += change;
+
+                int weightCount = (int)(random.NextDouble() * odds * (double)neurons[index].weights.Length);
+                for(int z = 0; z < weightCount; z++)
                 {
-                    if(random.NextDouble() < odds)
-                    {
-                        var change = (double)((random.NextDouble() - 0.5d) * factor);
-                        neurons[i].weights[z] += change;
-                        neurons[i].weights[z] *= 1 - change;
-                    }
+                    var weightIndex = random.Next(0, neurons[index].weights.Length);
+                    change = (double)((random.NextDouble() - 0.5d) * factor);
+                    neurons[index].weights[weightIndex] += change;
                 }
 
             }
@@ -65,7 +65,7 @@ namespace Agent.models.Layers
                 {
                     outputs[i] += inputs[z] * neurons[i].weights[z];
                 }
-                outputs[i] = SimpleNeuron.Sigmoid(outputs[i]);
+                outputs[i] = SimpleNeuron.Sigmoid(outputs[i] + neurons[i].bias);
             }
             return outputs;
         }
