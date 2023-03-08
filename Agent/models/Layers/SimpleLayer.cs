@@ -37,28 +37,28 @@ namespace Agent.models.Layers
                 neurons[i] = new SimpleNeuron(inputSize);
             }
         }
-        public void UpdateWeights(double factor, double odds)
+        public void UpdateWeights(float factor, float odds)
         {
-            int count = (int)(random.NextDouble()*odds*(double)neurons.Length);
+            int count = (int)(random.NextDouble()*odds*(float)neurons.Length);
             for(int i = 0; i < count; i++)
             {
                 var index = random.Next(0, neurons.Length);
-                var change = (double)((random.NextDouble() - 0.5d) * factor);
+                var change = (float)((random.NextDouble() - 0.5d) * factor);
                 neurons[index].bias += change;
 
-                int weightCount = (int)(random.NextDouble() * odds * (double)neurons[index].weights.Length);
+                int weightCount = (int)(random.NextDouble() * odds * (float)neurons[index].weights.Length);
                 for(int z = 0; z < weightCount; z++)
                 {
                     var weightIndex = random.Next(0, neurons[index].weights.Length);
-                    change = (double)((random.NextDouble() - 0.5d) * factor);
+                    change = (float)((random.NextDouble() - 0.5d) * factor);
                     neurons[index].weights[weightIndex] += change;
                 }
 
             }
         }
-        public double[] ForwardProp(double[] inputs)
+        public float[] ForwardProp(float[] inputs)
         {
-            double[] outputs = new double[neurons.Length];
+            float[] outputs = new float[neurons.Length];
             for (int i = 0; i < neurons.Length; i++)
             {
                 for (int z = 0; z < inputs.Length; z++)

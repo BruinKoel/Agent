@@ -5,7 +5,7 @@ namespace Agent.models.Nodes
     public class SimpleNode
     {
         public string name;
-        public double LastCost;
+        public float LastCost;
         private List<SimpleLayer> layers;
 
         private readonly int[] shape;
@@ -26,7 +26,7 @@ namespace Agent.models.Nodes
 
         public SimpleNode()
         {
-            LastCost = double.MaxValue;
+            LastCost = float.MaxValue;
         }
         public SimpleNode(int inputSize, int[] layerSizes)
         {
@@ -50,12 +50,12 @@ namespace Agent.models.Nodes
                     layers.Add(new SimpleLayer(layerSizes[i - 1], layerSizes[i]));
                 }
             }
-            LastCost = double.MaxValue;
+            LastCost = float.MaxValue;
         }
 
-        public double[] Compute(double[] inputs)
+        public float[] Compute(float[] inputs)
         {
-            double[] outputs = inputs;
+            float[] outputs = inputs;
             for (int i = 0; i < layers.Count; i++)
             {
                 outputs = layers[i].ForwardProp(outputs);
@@ -63,25 +63,25 @@ namespace Agent.models.Nodes
             return outputs;
         }
 
-        public void UpdateWeights(double factor, double odds)
+        public void UpdateWeights(float factor, float odds)
         {
            foreach(var layer in layers)
             {
                 layer.UpdateWeights(factor, odds);
             }
         }
-        public void CalculateCost(double[][] input, double[][] desiredOutput)
+        public void CalculateCost(float[][] input, float[][] desiredOutput)
         {
-            List<double> cost = new List<double>();
-            double[][] results = new double[input.GetLength(0)][];
+            List<float> cost = new List<float>();
+            float[][] results = new float[input.GetLength(0)][];
 
             for (int i = 0; i < desiredOutput.GetLength(0); i++)
             {
                 results[i] = Compute(input[i]);
-                double temp = 0;
+                float temp = 0;
                 for (int j = 0; j < results[0].Length; j++)
                 {
-                    temp += (double)Math.Pow(results[i][j] - desiredOutput[i][j], 2);
+                    temp += (float)Math.Pow(results[i][j] - desiredOutput[i][j], 2);
                 }
 
                 cost.Add(temp / results[0].Length);

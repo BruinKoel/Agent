@@ -11,14 +11,14 @@ namespace Agent.models.Cells
     public class SimpleNeuron
     {
         
-        public double[] weights;
-        public double bias;
+        public float[] weights;
+        public float bias;
 
         public SimpleNeuron DeepCopy()
         {
             var temp = new SimpleNeuron()
             {
-                weights = new double[weights.Length],
+                weights = new float[weights.Length],
                 bias= bias,
             };
             weights.CopyTo(temp.weights, 0);
@@ -32,19 +32,19 @@ namespace Agent.models.Cells
         public SimpleNeuron(int inputSize)
         {
             Random random = new Random();
-            weights = new double[inputSize];
+            weights = new float[inputSize];
             for (int i = 0; i < inputSize; i++)
             {
-                weights[i] = (double)random.NextDouble()-0.5d;
+                weights[i] = (float)random.NextDouble()-0.5f;
             }
-            bias = (double)random.NextDouble()-0.5d;
+            bias = (float)random.NextDouble()-0.5f;
         }
 
 
-        public static double Sigmoid(double x)
+        public static float Sigmoid(float x)
         {
             
-            return (double)Math.Tanh(x);
+            return (float)Math.Tanh(x);
         }
     }
 }
